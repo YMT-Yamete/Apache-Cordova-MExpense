@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- title -->
+    <title>DB Exercises</title>
+
+    <!-- jquery mobile -->
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+    <!-- script files -->
+    <script src="cordova.js"></script>
+    <script src="js/database.js"></script>
+
+    <!-- boostrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
+        integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk"
+        crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <div data-role="page">
+        <div data-role="header">
+            <div class="headerBar">
+                <h1 class="headerText">MExpense</h1>
+            </div>
+        </div>
+        <div data-role="content">
+            <div id="entry" style="background-color: #F9F9F9;">
+                <label for="text-basic">Name:</label>
+                <input type="text" id="txtName" value="" required>
+                <label for="text-basic">Trip Name:</label>
+                <input type="text" id="txtTripName" value="" required>
+                <label for="text-basic">Destination:</label>
+                <input type="text" id="txtDestination" value="" required>
+                <label for="text-basic">Date of trip:</label>
+                <input type="date" id="txtDate" value="" required>
+                <label for="text-basic">Total Days:</label>
+                <input type="number" id="txtTotalDays" value="" required>
+                <table width="92%" style="padding-top: 10px; padding-bottom: 20px;">
+                    <tr>
+                        <td>
+                            <label for="text-basic" style="margin-top: 15px;">Risk Assessment:</label>
+                        </td>
+                        <td>
+                            <input type="checkbox" id="chkboxRiskAssessment">
+                        </td>
+                    </tr>
+                </table>
+                <label for="text-basic">Description:</label>
+                <input type="text" id="txtDescription" value="">
+                <table width="100%">
+                    <tr>
+                        <td>
+                            <button onclick="save();" style="background: #A31D1D; color: white;">Save</button>
+                        </td>
+                        <td>
+                            <button onclick="closeEntry();" style="background: grey; color: white;">Back</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="display">
+                <div>
+                    <table width="100%">
+                        <tr>
+                            <td>
+                                <input type="search" name="search-1" id="search-1" value="">
+                            </td>
+                            <td>
+                                <button onclick="search();"
+                                    style="background: #A31D1D; color: white; padding: 8px;">Search</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="list">
+
+                </div>
+            </div>
+            <div data-role="footer" data-position="fixed" data-tap-toggle="false">
+                <div class="ui-grid-d" id="openEntryButton">
+                    <div class="ui-block-a"></div>
+                    <div class="ui-block-b"></div>
+                    <div class="ui-block-c"></div>
+                    <div class="ui-block-d"></div>
+                    <div class="ui-block-e">
+                        <a href="#" class="ui-btn ui-corner-all ui-icon-plus ui-icon-big ui-btn-icon-notext"
+                            onclick="add()"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
