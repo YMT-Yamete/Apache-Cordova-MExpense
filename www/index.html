@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- title -->
-    <title>DB Exercises</title>
+    <title>MExpense</title>
 
     <!-- jquery mobile -->
     <link rel="stylesheet" href="css/index.css">
@@ -18,6 +18,7 @@
     <!-- script files -->
     <script src="cordova.js"></script>
     <script src="js/database.js"></script>
+    <script src="js/script.js"></script>
 
     <!-- boostrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -42,40 +43,42 @@
             </div>
         </div>
         <div data-role="content">
-            <div id="entry" style="background-color: #F9F9F9;">
-                <label for="text-basic">Name:</label>
-                <input type="text" id="txtName" value="" required>
-                <label for="text-basic">Trip Name:</label>
-                <input type="text" id="txtTripName" value="" required>
-                <label for="text-basic">Destination:</label>
-                <input type="text" id="txtDestination" value="" required>
-                <label for="text-basic">Date of trip:</label>
-                <input type="date" id="txtDate" value="" required>
-                <label for="text-basic">Total Days:</label>
-                <input type="number" id="txtTotalDays" value="" required>
-                <table width="92%" style="padding-top: 10px; padding-bottom: 20px;">
-                    <tr>
-                        <td>
-                            <label for="text-basic" style="margin-top: 15px;">Risk Assessment:</label>
-                        </td>
-                        <td>
-                            <input type="checkbox" id="chkboxRiskAssessment">
-                        </td>
-                    </tr>
-                </table>
-                <label for="text-basic">Description:</label>
-                <input type="text" id="txtDescription" value="">
-                <table width="100%">
-                    <tr>
-                        <td>
-                            <button onclick="save();" style="background: #A31D1D; color: white;">Save</button>
-                        </td>
-                        <td>
-                            <button onclick="closeEntry();" style="background: grey; color: white;">Back</button>
-                        </td>
-                    </tr>
-                </table>
-            </div>
+            <form>
+                <div id="entry" style="background-color: #F9F9F9;">
+                    <label for="text-basic">Name:</label>
+                    <input type="text" id="txtName" value="" required>
+                    <label for="text-basic">Trip Name:</label>
+                    <input type="text" id="txtTripName" value="" required>
+                    <label for="text-basic">Destination:</label>
+                    <input type="text" id="txtDestination" value="" required>
+                    <label for="text-basic">Date of trip:</label>
+                    <input type="date" id="txtDate" value="" required>
+                    <label for="text-basic">Total Days:</label>
+                    <input type="number" id="txtTotalDays" value="" required>
+                    <table width="92%" style="padding-top: 10px; padding-bottom: 20px;">
+                        <tr>
+                            <td>
+                                <label for="text-basic" style="margin-top: 15px;">Risk Assessment:</label>
+                            </td>
+                            <td>
+                                <input type="checkbox" id="chkboxRiskAssessment">
+                            </td>
+                        </tr>
+                    </table>
+                    <label for="text-basic">Description:</label>
+                    <input type="text" id="txtDescription" value="">
+                    <table width="100%">
+                        <tr>
+                            <td>
+                                <button type="button" onclick="confirmationOn();" style="background: #A31D1D; color: white;">Next</button>
+                            </td>
+                            <td>
+                                <button type="button" onclick="closeEntry();" style="background: grey; color: white;">Back</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </form>
             <div id="display">
                 <div>
                     <table width="100%">
@@ -91,22 +94,63 @@
                     </table>
                 </div>
                 <div id="list">
-
                 </div>
             </div>
-            <div data-role="footer" data-position="fixed" data-tap-toggle="false">
-                <div class="ui-grid-d" id="openEntryButton">
-                    <div class="ui-block-a"></div>
-                    <div class="ui-block-b"></div>
-                    <div class="ui-block-c"></div>
-                    <div class="ui-block-d"></div>
-                    <div class="ui-block-e">
-                        <a href="#" class="ui-btn ui-corner-all ui-icon-plus ui-icon-big ui-btn-icon-notext"
-                            onclick="add()"></a>
+            <div id="overlay">
+                <div id="confirmationCard" class="card text-bg-light mb-3">
+                    <div class="card-header">Confirmation</div>
+                    <div class="card-body">
+                        <table width="100%">
+                            <tr>
+                                <td>Name:</td>
+                                <td id="nameConfirm"></td>
+                            </tr>
+                            <tr>
+                                <td>Trip Name:</td>
+                                <td id="tripNameConfirm"></td>
+                            </tr>
+                            <tr>
+                                <td>Destination:</td>
+                                <td id="destinationConfirm"></td>
+                            </tr>
+                            <tr>
+                                <td>Date of Trip:</td>
+                                <td id="dateConfirm"></td>
+                            </tr>
+                            <tr>
+                                <td>Total Days:</td>
+                                <td id="totalDaysConfirm"></td>
+                            </tr>
+                            <tr>
+                                <td>Risk Assessment:</td>
+                                <td id="riskAssessmentConfirm"></td>
+                            </tr>
+                            <tr>
+                                <td>Description:</td>
+                                <td id="descriptionConfirm"></td>
+                            </tr>
+                            <tr>
+                                <td><button onclick="save();" style="background: #A31D1D; color: white;">Save</button></td>
+                                <td><button onclick="confirmationOff();" style="background: grey; color: white;">Back</button></td>
+                            </tr>
+                        </table>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div data-role="footer" data-position="fixed" data-tap-toggle="false">
+            <div class="ui-grid-d" id="openEntryButton">
+                <div class="ui-block-a"></div>
+                <div class="ui-block-b"></div>
+                <div class="ui-block-c"></div>
+                <div class="ui-block-d"></div>
+                <div class="ui-block-e">
+                    <a href="#" class="ui-btn ui-corner-all ui-icon-plus ui-icon-big ui-btn-icon-notext"
+                        onclick="add()"></a>
                 </div>
             </div>
         </div>
     </div>
 </body>
+
 </html>

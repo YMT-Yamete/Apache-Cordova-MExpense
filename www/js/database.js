@@ -63,7 +63,7 @@ function dataSelect(tx, results) {
     "</div>" +
     "<div class='card-body'>" +
       "<h5 class='card-title'>"+ results.rows.item(i).tripName + "</h5><br>" +
-      "<table width='80%'>" +
+      "<table width='100%'>" +
         "<tr>" +
             "<td>Name:</td>" +
             "<td>"+ results.rows.item(i).name + "</td>" +
@@ -149,6 +149,7 @@ function save() {
     errorDB,
     successDB
   );
+  document.getElementById("overlay").style.display = "none";
   closeEntry();
   select('');
 }
