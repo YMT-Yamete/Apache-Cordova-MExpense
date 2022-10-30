@@ -36,6 +36,98 @@ function select(keyword) {
   );
 }
 
+var sortAZ = 1;
+function sortAlphabatically() {
+  console.log("here");
+  var keyword = document.getElementById('search-1').value;
+  if (Boolean(sortAZ)) {
+    sortAZ = 0;
+    myDB.transaction(
+      function (tx) {
+        tx.executeSql(
+          "select * from trips" +
+            " where name LIKE '%" +
+            keyword +
+            "%'" +
+            " OR tripName LIKE '%" +
+            keyword +
+            "%' ORDER BY tripName DESC",
+          [],
+          dataSelect,
+          errorDB
+        );
+      },
+      errorDB,
+    );
+  }
+  else {
+    sortAZ = 1;
+    myDB.transaction(
+      function (tx) {
+        tx.executeSql(
+          "select * from trips" +
+            " where name LIKE '%" +
+            keyword +
+            "%'" +
+            " OR tripName LIKE '%" +
+            keyword +
+            "%' ORDER BY tripName ASC",
+          [],
+          dataSelect,
+          errorDB
+        );
+      },
+      errorDB,
+    );
+  }
+}
+
+var sortLatestOldest = 1;
+function sortByTime() {
+  console.log("here");
+  var keyword = document.getElementById('search-1').value;
+  if (Boolean(sortLatestOldest)) {
+    sortLatestOldest = 0;
+    myDB.transaction(
+      function (tx) {
+        tx.executeSql(
+          "select * from trips" +
+            " where name LIKE '%" +
+            keyword +
+            "%'" +
+            " OR tripName LIKE '%" +
+            keyword +
+            "%' ORDER BY id DESC",
+          [],
+          dataSelect,
+          errorDB
+        );
+      },
+      errorDB,
+    );
+  }
+  else {
+    sortLatestOldest = 1;
+    myDB.transaction(
+      function (tx) {
+        tx.executeSql(
+          "select * from trips" +
+            " where name LIKE '%" +
+            keyword +
+            "%'" +
+            " OR tripName LIKE '%" +
+            keyword +
+            "%' ORDER BY id ASC",
+          [],
+          dataSelect,
+          errorDB
+        );
+      },
+      errorDB,
+    );
+  }
+}
+
 function dataSelect(tx, results) {
   var divList = document.getElementById("list");
   var recordList = "";
@@ -116,7 +208,6 @@ function save() {
   totalDays = parseInt(document.getElementById('txtTotalDays').value);
   riskAssessment = $("#chkboxRiskAssessment").prop("checked");
   description = document.getElementById('txtDescription').value;
-
   
   myDB.transaction(
     function (tx) {
@@ -231,6 +322,7 @@ function add() {
 }
 
 function closeEntry() {
+  clearTextBoxes();
   $('#entry').hide();
   $('#display').show();
   $('#openEntryButton').show();
@@ -262,6 +354,16 @@ function onEdit(id) {
   );
   add();
   myID = id;
+}
+
+function clearTextBoxes() {
+  document.getElementById('txtName').value = "";
+  document.getElementById('txtTripName').value = "";
+  document.getElementById('txtDestination').value = "";
+  document.getElementById('txtDate').value = "";
+  document.getElementById('txtTotalDays').value = "";
+  document.getElementById('chkboxRiskAssessment').checked = false;
+  document.getElementById('txtDescription').value = "";
 }
 
 function successDB() {
