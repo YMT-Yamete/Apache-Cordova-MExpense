@@ -309,6 +309,17 @@ function deleteDB(id) {
   select("");
 }
 
+function clearData() {
+  myDB.transaction(
+    function (tx) {
+      tx.executeSql("DELETE FROM trips");
+    },
+    errorDB,
+    successDB
+  );
+  select("");
+}
+
 function search() {
   var searchWord = document.getElementById('search-1');
   select(searchWord.value);

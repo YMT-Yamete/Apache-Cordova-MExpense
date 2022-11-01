@@ -40,6 +40,8 @@
         <div data-role="header">
             <div class="headerBar">
                 <h1 class="headerText">MExpense</h1>
+                <button
+                    class="ui-btn-right ui-btn ui-btn-b ui-corner-all" style="top: 9px; background-color: red; border: none;" onclick="clearData();">Clear Data</button>
             </div>
         </div>
         <div data-role="content">
@@ -70,10 +72,12 @@
                     <table width="100%">
                         <tr>
                             <td>
-                                <button type="button" onclick="confirmationOn();" style="background: #A31D1D; color: white;">Next</button>
+                                <button type="button" onclick="confirmationOn();"
+                                    style="background: #A31D1D; color: white;">Next</button>
                             </td>
                             <td>
-                                <button type="button" onclick="closeEntry();" style="background: grey; color: white;">Back</button>
+                                <button type="button" onclick="closeEntry();"
+                                    style="background: grey; color: white;">Back</button>
                             </td>
                         </tr>
                     </table>
@@ -102,7 +106,8 @@
                             </td>
                             <td width="50%">
                                 <button onclick="sortByTime();"
-                                    style="background: grey; color: white; padding: 8px;">Sort (Latest - Oldest)</button>
+                                    style="background: grey; color: white; padding: 8px;">Sort (Latest -
+                                    Oldest)</button>
                             </td>
                         </tr>
                     </table>
@@ -144,8 +149,10 @@
                                 <td id="descriptionConfirm"></td>
                             </tr>
                             <tr>
-                                <td><button onclick="save();" style="background: #A31D1D; color: white;">Save</button></td>
-                                <td><button onclick="confirmationOff();" style="background: grey; color: white;">Back</button></td>
+                                <td><button onclick="save();" style="background: #A31D1D; color: white;">Save</button>
+                                </td>
+                                <td><button onclick="confirmationOff();"
+                                        style="background: grey; color: white;">Back</button></td>
                             </tr>
                         </table>
                     </div>
