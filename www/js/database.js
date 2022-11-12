@@ -11,8 +11,8 @@ function onDeviceReady() {
 function createDB(tx) {
   tx.executeSql(
     "CREATE TABLE IF NOT EXISTS trips(" +
-      "id INTEGER PRIMARY KEY AUTOINCREMENT, name varchar(30), tripName varchar(30), destination varchar," +
-      "dateOfTrip varchar, totalDays integer, riskAssessment bool, description text)"
+      "id INTEGER PRIMARY KEY AUTOINCREMENT, tripName varchar(30), destination varchar," +
+      "dateOfTrip varchar, totalDays integer, travelAgency varchar(30), riskAssessment bool, description text)"
   );
 }
 
@@ -21,7 +21,7 @@ function select(keyword) {
     function (tx) {
       tx.executeSql(
         "select * from trips" +
-          " where name LIKE '%" +
+          " where destination LIKE '%" +
           keyword +
           "%'" +
           " OR tripName LIKE '%" +
@@ -46,7 +46,7 @@ function sortAlphabatically() {
       function (tx) {
         tx.executeSql(
           "select * from trips" +
-            " where name LIKE '%" +
+            " where destination LIKE '%" +
             keyword +
             "%'" +
             " OR tripName LIKE '%" +
@@ -66,7 +66,7 @@ function sortAlphabatically() {
       function (tx) {
         tx.executeSql(
           "select * from trips" +
-            " where name LIKE '%" +
+            " where destination LIKE '%" +
             keyword +
             "%'" +
             " OR tripName LIKE '%" +
@@ -92,7 +92,7 @@ function sortByTime() {
       function (tx) {
         tx.executeSql(
           "select * from trips" +
-            " where name LIKE '%" +
+            " where destination LIKE '%" +
             keyword +
             "%'" +
             " OR tripName LIKE '%" +
@@ -112,7 +112,7 @@ function sortByTime() {
       function (tx) {
         tx.executeSql(
           "select * from trips" +
-            " where name LIKE '%" +
+            " where destination LIKE '%" +
             keyword +
             "%'" +
             " OR tripName LIKE '%" +
@@ -157,10 +157,6 @@ function dataSelect(tx, results) {
       "<h5 class='card-title'>"+ results.rows.item(i).tripName + "</h5><br>" +
       "<table width='100%'>" +
         "<tr>" +
-            "<td>Name:</td>" +
-            "<td>"+ results.rows.item(i).name + "</td>" +
-        "</tr>"+
-        "<tr>" +
             "<td>Destination:</td>" +
             "<td>"+ results.rows.item(i).destination + "</td>" +
         "</tr>" +
@@ -172,6 +168,10 @@ function dataSelect(tx, results) {
             "<td>Total Days:</td>" +
             "<td>"+ results.rows.item(i).totalDays + "</td>" +
         "</tr>" +
+        "<tr>" +
+          "<td>Travel Agency:</td>" +
+          "<td>"+ results.rows.item(i).travelAgency + "</td>" +
+        "</tr>"+
         "<tr>" +
             "<td>Risk Assessment:</td>" +
             "<td>"+ results.rows.item(i).riskAssessment + "</td>" +
@@ -193,29 +193,29 @@ function save() {
     update(myID);
     return;
   }
-  var name = "";
+
   var tripName = "";
   var destination = "";
   var dateOfTrip = "";
   var totalDays = "";
+  var travelAgency = "";
   var riskAssessment = "";
   var description = "";
 
-  name = document.getElementById('txtName').value;
   tripName = document.getElementById('txtTripName').value;
   destination = document.getElementById('txtDestination').value;
   dateOfTrip = document.getElementById('txtDate').value;
   totalDays = parseInt(document.getElementById('txtTotalDays').value);
+  travelAgency = document.getElementById('txtTravelAgency').value;
   riskAssessment = $("#chkboxRiskAssessment").prop("checked");
   description = document.getElementById('txtDescription').value;
   
+  console.log(travelAgency);
+
   myDB.transaction(
     function (tx) {
       tx.executeSql(
-        "INSERT INTO trips(name, tripName, destination, dateOfTrip, totalDays, riskAssessment, description) VALUES (" +
-          '"' +
-          name +
-          '",' +
+        "INSERT INTO trips(tripName, destination, dateOfTrip, totalDays, travelAgency, riskAssessment, description) VALUES (" +
           '"' +
           tripName +
           '",' +
@@ -227,6 +227,9 @@ function save() {
           '",' +
           '"' +
           totalDays +
+          '",' +
+          '"' +
+          travelAgency +
           '",' +
           '"' +
           riskAssessment +
@@ -246,19 +249,19 @@ function save() {
 }
 
 function update(id) {
-  var name = "";
   var tripName = "";
   var destination = "";
   var dateOfTrip = "";
   var totalDays = "";
+  var travelAgency = "";
   var riskAssessment = "";
   var description = "";
 
-  name = document.getElementById('txtName').value;
   tripName = document.getElementById('txtTripName').value;
   destination = document.getElementById('txtDestination').value;
   dateOfTrip = document.getElementById('txtDate').value;
   totalDays = document.getElementById('txtTotalDays').value;
+  travelAgency = document.getElementById('txtTravelAgency').value;
   riskAssessment = document.getElementById('chkboxRiskAssessment').value;
   description = document.getElementById('txtDescription').value;
 
@@ -266,9 +269,6 @@ function update(id) {
     function (tx) {
       tx.executeSql(
         "UPDATE trips SET " +
-          'name="' +
-          name +
-          '",' +
           'tripName="' +
           tripName +
           '",' +
@@ -281,6 +281,9 @@ function update(id) {
           "totalDays=" +
           totalDays +
           "," +
+          'travelAgency="' +
+          travelAgency +
+          '",' +
           'riskAssessment="' +
           riskAssessment +
           '",' +
@@ -348,11 +351,11 @@ function onEdit(id) {
         [],
         function (tx, results) {
           for (var i = 0; i < results.rows.length; i++) {
-            $('#txtName').val(results.rows.item(i).name);
             $('#txtTripName').val(results.rows.item(i).tripName);
             $('#txtDestination').val(results.rows.item(i).destination);
             $('#txtDate').val(results.rows.item(i).dateOfTrip);
             $('#txtTotalDays').val(results.rows.item(i).totalDays);
+            $('#txtTravelAgency').val(results.rows.item(i).travelAgency);
             $('#chkboxRiskAssessment').val(results.rows.item(i).riskAssessment);
             $('#txtDescription').val(results.rows.item(i).description);
           }
@@ -368,11 +371,11 @@ function onEdit(id) {
 }
 
 function clearTextBoxes() {
-  document.getElementById('txtName').value = "";
   document.getElementById('txtTripName').value = "";
   document.getElementById('txtDestination').value = "";
   document.getElementById('txtDate').value = "";
   document.getElementById('txtTotalDays').value = "";
+  document.getElementById('txtTravelAgency').value = "";
   document.getElementById('chkboxRiskAssessment').checked = false;
   document.getElementById('txtDescription').value = "";
 }
